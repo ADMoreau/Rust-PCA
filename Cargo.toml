@@ -1,0 +1,16 @@
+[package]
+name = "PCA"
+version = "0.1.0"
+authors = ["Austin Moreau"]
+edition = "2018"
+
+[features]
+default = []
+openblas = ["ndarray-linalg/openblas"]
+intel-mkl = ["ndarray-linalg/intel-mkl"]
+netlib = ["ndarray-linalg/netlib"]
+
+[dependencies]
+ndarray = "0.13"
+ndarray-linalg = "0.12"
+openblas-src = "0.7"
