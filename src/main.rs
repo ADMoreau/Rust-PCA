@@ -27,6 +27,8 @@ impl Default for <rPCA as Trait>::fit {
 }
 */
 
+/// rPCA method based on https://statistics.stanford.edu/sites/g/files/sbiybj6031/f/2009-13.pdf
+/// with matlab implementation, https://github.com/dlaptev/RobustPCA
 impl rPCA {
 
     // X is a data matrix (of the size N x M) to be decomposed
@@ -43,16 +45,20 @@ impl rPCA {
     ) -> Self {
         let (_n, _m) = X.dim();
 
+        // default lambda
         if lambda == 0.0 {
             let max = max(_n, _m) as f64;
             lambda = 1.0 / max.sqrt() as f64;
         }
+        // default mu
         if mu == 0.0 {
             mu = 10.0 * lambda;
         }
+        // default tol
         if tol == 0.0 {
             tol = 1e-6;
         }
+        // default max_iter
         if max_iter == 0 {
             max_iter = 1000;
         }
@@ -159,7 +165,15 @@ pub fn sign (
     Zip::from(&mut out)
                 .and(X)
                 .apply(|a, &b| {
-                    *a = b / b;
+                    if b == 0 {
+                        *a = 0;
+                    }
+                    else if b > 0 {
+                        *a = 1;
+                    }
+                    else {
+                        *a = -1;
+                    }
                 });
     out
 }
@@ -311,17 +325,6 @@ pub fn get_covariance_matrix(
     let c = b.dot(&b.t()) / _div as f64;
     c
 }
-
-/* only necessary for complex numbers
-pub fn get_conjugate_transpose(
-    a: &ArrayBase<impl Data<Elem = f64>, Ix2>,
-) -> &ArrayBase<impl Data<Elem = f64>, Ix2> {
-     let a = a.t();
-    // todo: get conjugates for imaginary numbers
-    // i.e conjugate of a + bi = a - bi
-    a
-}
-*/
 
 fn main() {
     let x: Array2<f64> = arr2(&[[1., 2., 3.],
