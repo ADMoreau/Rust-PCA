@@ -1,1 +1,0 @@
-{"rustc":12537768869586049025,"features":"[\"approx\", \"rayon\", \"serde\"]","target":10429514197457385088,"profile":9935990280773120926,"path":9109768885331826591,"deps":[],"local":[{"CheckDepInfo":{"dep_info":"debug/.fingerprint/ndarray-574475d8d5be17c2/dep-build-script-build_script_build-574475d8d5be17c2"}}],"rustflags":[],"metadata":12734421682426488421}
